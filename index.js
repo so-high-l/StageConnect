@@ -9,6 +9,10 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/users.js";
+import categoryRoutes from "./routes/category.js";
+import demandeRoutes from "./routes/demande.js";
+import offerRoutes from "./routes/offer.js";
 import { register } from "./controllers/auth.js";
 
 //  CONFIGURATIONS
@@ -43,6 +47,10 @@ app.post("/auth/register", upload.single("picture"), register);
 
 // ROUTES
 app.use("/auth", authRoutes);
+app.use("/users", userRoutes);
+app.use("/category", categoryRoutes);
+app.use("/demande", demandeRoutes);
+app.use("/offer", offerRoutes);
 
 // MONGODB SETUP
 const PORT = process.env.PORT || 6001;

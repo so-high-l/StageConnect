@@ -38,7 +38,7 @@ export const register = async (req, res) => {
   }
 };
 
-/* REGISTER USER */
+/* LOGIN USER */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -50,7 +50,10 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ msg: "User does not exist" });
     }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET
+    );
     delete user.password;
     res.status(200).json({ token, user });
   } catch (error) {

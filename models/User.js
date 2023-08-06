@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true, min: 2, max: 50 },
     lastName: { type: String, required: true, min: 2, max: 50 },
@@ -15,6 +15,6 @@ const UserSchema = new mongoose.Schema(
   { collection: "StageConnect" }
 );
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;
