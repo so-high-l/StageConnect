@@ -5,6 +5,8 @@ import {
   getLoggedProfile,
   getUserDemandes,
   getUserOffers,
+  getUserEvaluations,
+  getEvaluationsByCompany,
 } from "../controllers/users.js";
 import { verifyToken } from "../middleware/auth.js";
 
@@ -33,5 +35,13 @@ router.get("/:id/offers", verifyToken, getUserOffers);
 // @PUT      /profile
 // @desc   Update a users profile info
 // router.put("/:id", verifyToken, updateProfile);
+
+// @GET     "/users/:id/student/evaluations"
+// @desc    Get user evaluations
+router.get("/:id/student/evaluations", verifyToken, getUserEvaluations);
+
+// @GET     "/users/:id/company/evaluations"
+// @desc    Get evaluations by company
+router.get("/:id/company/evaluations", verifyToken, getEvaluationsByCompany);
 
 export default router;

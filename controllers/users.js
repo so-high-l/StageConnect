@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Demande from "../models/Demande.js";
 import Offer from "../models/Offer.js";
+import Evaluation from "../models/Evaluation.js";
 
 /* GET USER */
 export const getUser = async (req, res) => {
@@ -55,8 +56,30 @@ export const getUserDemandes = async (req, res) => {
 export const getUserOffers = async (req, res) => {
   try {
     const { id } = req.params;
-    const offers = await Offer.find({ company: id });
+    const offers = await Offer.find({ companyId: id });
     res.status(200).json(offers);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+/* GET A SPECIFIC USER EVALUATIONS */
+export const getUserEvaluations = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const evaluations = await Evaluation.find({ cible: id });
+    res.status(200).json(evaluations);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+/* GET A SPECIFIC EVALUATIONS BY COMPANY */
+export const getEvaluationsByCompany = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const evaluations = await Evaluation.find({ author: id });
+    res.status(200).json(evaluations);
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
