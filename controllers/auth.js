@@ -48,14 +48,31 @@ export const login = async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "User does not exist" });
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET
     );
     delete user.password;
+
+    // Set the token in a cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+    });
+
     res.status(200).json({ token, user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/* LOGOUT USER */
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    req.token = null;
+    res.status(200).json({ msg: "Logout successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

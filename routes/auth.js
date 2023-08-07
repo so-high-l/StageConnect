@@ -1,5 +1,5 @@
 import express from "express";
-import { login } from "../controllers/auth.js";
+import { login, logout } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -7,4 +7,7 @@ const router = express.Router();
 // @desc    Login User
 router.post("/login", login);
 
+// @POST     "/auth/logout"
+// @desc     Logout the user and invalidate the token
+router.post("/logout", logout);
 export default router;

@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 export const isCompany = async (req, res, next) => {
   try {
-    console.log("Middleware invoked here ------------");
     const token = req.header("Authorization");
 
     if (!token) {
@@ -12,14 +11,12 @@ export const isCompany = async (req, res, next) => {
     const tokenValue = token.replace("Bearer ", "");
 
     const decodedToken = jwt.verify(tokenValue, process.env.JWT_SECRET);
-    console.log(decodedToken.id);
-    console.log(decodedToken.role);
+
     if (decodedToken.role !== "company") {
       return res
         .status(403)
         .json({ error: "Access Denied: Only companies are allowed" });
     }
-    console.log("Middleware ended here ------------");
 
     next();
   } catch (error) {
@@ -42,7 +39,7 @@ export const isStudent = async (req, res, next) => {
     if (decodedToken.role !== "student") {
       return res
         .status(403)
-        .json({ error: "Access Denied: Only companies are allowed" });
+        .json({ error: "Access Denied: Only students are allowed" });
     }
 
     next();

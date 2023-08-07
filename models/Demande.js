@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const demandeSchema = new mongoose.Schema({
   title: { type: String, required: true },
   message: { type: String, required: true },
-  status: { type: String },
+  status: { type: String, default: "pending" },
   student: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

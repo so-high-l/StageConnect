@@ -2,6 +2,7 @@ import express from "express";
 import {
   getUser,
   getAllUsers,
+  getLoggedProfile,
   getUserDemandes,
   getUserOffers,
 } from "../controllers/users.js";
@@ -9,9 +10,13 @@ import { verifyToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
+// @GET     "/profile"
+// @desc    Get user profile data by token
+router.get("/profile", verifyToken, getLoggedProfile);
+
 // @GET     "/users/:id"
 // @desc    Get user profile data by token
-router.get("/:id", verifyToken, getUser);
+router.get("/profile/:id", verifyToken, getUser);
 
 // @GET     "/users/"
 // @desc    Get all users

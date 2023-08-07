@@ -13,6 +13,23 @@ export const getUser = async (req, res) => {
   }
 };
 
+/* GET LOGGED USER PROFILE */
+export const getLoggedProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    console.log(userId);
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    console.log(userId);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 /* GET ALL USERS */
 export const getAllUsers = async (req, res) => {
   try {
