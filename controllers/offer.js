@@ -3,6 +3,7 @@ import Offer from "../models/Offer.js";
 /* CREATE OFFER */
 export const createOffer = async (req, res) => {
   try {
+    console.log("creating offer ...");
     const { title, description, companyId, categoryId, startDate, endDate } =
       req.body;
     const newOffer = new Offer({
@@ -14,9 +15,10 @@ export const createOffer = async (req, res) => {
       endDate,
     });
     const offer = await newOffer.save();
-    res.status(201).json(offer);
+    const updatedOffers = await Offer.find();
+    res.status(201).json(updatedOffers);
   } catch (error) {
-    res.status(404).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -66,11 +68,9 @@ export const updateOffer = async (req, res) => {
 
     // Check if the logged-in user's ID matches the company ID
     if (req.user.id !== companyId) {
-      return res
-        .status(403)
-        .json({
-          error: "Access Denied: You can only update your own company's offers",
-        });
+      return res.status(403).json({
+        error: "Access Denied: You can only update your own company's offers",
+      });
     }
 
     const updatedOffer = await Offer.findByIdAndUpdate(
