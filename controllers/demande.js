@@ -4,18 +4,17 @@ import Offer from "../models/Offer.js";
 // CREATE DEMANDE
 export const createDemande = async (req, res) => {
   try {
-    const { title, message, status, student, offer } = req.body;
+    const { title, message, offer } = req.body;
     const newDemande = new Demande({
       title,
       message,
-      status,
       student: req.user.id,
       offer,
     });
     const demande = await newDemande.save();
     res.status(201).json(demande);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ errorrr: err.message });
   }
 };
 

@@ -1,11 +1,12 @@
 import Offer from "../models/Offer.js";
-
+import User from "../models/User.js";
 /* CREATE OFFER */
 export const createOffer = async (req, res) => {
   try {
-    console.log("creating offer ...");
     const { title, description, companyId, categoryId, startDate, endDate } =
       req.body;
+    const user = await User.findById(companyId);
+
     const newOffer = new Offer({
       title,
       description,
@@ -13,6 +14,9 @@ export const createOffer = async (req, res) => {
       categoryId,
       startDate,
       endDate,
+      userPicturePath: user.picturePath,
+      firstName: user.firstName,
+      lastName: user.lastName,
     });
     const offer = await newOffer.save();
     const updatedOffers = await Offer.find();

@@ -15,6 +15,9 @@ const offerSchema = new mongoose.Schema({
   },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
+  userPicturePath: { type: String, default: "" },
+  firstName: { type: String, default: "" },
+  lastName: { type: String, default: "" },
 });
 
 const Offer = mongoose.model("Offer", offerSchema);
