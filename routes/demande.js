@@ -5,6 +5,7 @@ import {
   getAllDemandes,
   respondToDemande,
   deleteDemande,
+  getAllDemandesByCompany,
 } from "../controllers/demande.js";
 import { verifyToken } from "../middleware/auth.js";
 import { isStudent, isCompany } from "../middleware/roles.js";
@@ -15,7 +16,7 @@ const router = express.Router();
 router.post("/", verifyToken, isStudent, createDemande);
 
 // @GET     "/demande/"
-// @desc    Get all categories
+// @desc    Get all demandes
 router.get("/", verifyToken, getAllDemandes);
 
 // @GET     "/demande/:id"
@@ -30,5 +31,9 @@ router.put("/:id/:accepted", verifyToken, isCompany, respondToDemande);
 // @DELETE  "/demande/:id"
 // @desc    Delete a demande by id
 router.delete("/:id", verifyToken, deleteDemande);
+
+// @GET     "/demande/company/:companyId"
+// @desc    Get all demandes
+router.get("/company/:companyId", verifyToken, getAllDemandesByCompany);
 
 export default router;

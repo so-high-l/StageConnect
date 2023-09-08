@@ -4,17 +4,21 @@ import Offer from "../models/Offer.js";
 // CREATE DEMANDE
 export const createDemande = async (req, res) => {
   try {
-    const { title, message, offer } = req.body;
+    const { title, message, offer, firstName, lastName, userPicturePath } =
+      req.body;
     const newDemande = new Demande({
       title,
       message,
       student: req.user.id,
+      firstName,
+      lastName,
+      userPicturePath,
       offer,
     });
     const demande = await newDemande.save();
     res.status(201).json(demande);
   } catch (err) {
-    res.status(500).json({ errorrr: err.message });
+    res.status(500).json({ error: err.message });
   }
 };
 
@@ -110,5 +114,21 @@ export const deleteDemande = async (req, res) => {
     res.status(200).json({ msg: "Demande deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+// Get all demandes recieved by a company
+export const getAllDemandesByCompany = async (req, res) => {
+  const companyId = req.params.companyId;
+  try {
+    const offers = await Offer.find({ companyId });
+
+    const offerIds = offers.map((offer) => offer._id);
+
+    const demandes = await Demande.find({ offer: { $in: offerIds } });
+
+    res.status(200).json(demandes);
+  } catch (err) {
+    res.status(404).json({ error: err.message });
   }
 };
